@@ -1,0 +1,5 @@
+name=Złośliwy Goblin
+hp=15
+damage=2
+isBoss=false
+image=images/goblin.png
