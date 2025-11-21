@@ -1,0 +1,5 @@
+name=Wódz Orków
+hp=60
+damage=6
+isBoss=true
+image=images/orc.png+

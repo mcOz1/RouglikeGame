@@ -1,0 +1,6 @@
+id=sharp_sword
+name=Ostrzałka
+description=+3 do Siły
+effectType=INCREASE_DMG
+value=3
+image=images/sword.png

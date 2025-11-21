@@ -1,0 +1,6 @@
+id=heal_potion
+name=Mikstura Zdrowia
+description=Odnawia 20 HP
+effectType=HEAL
+value=20
+image=images/potion.png
