@@ -181,7 +181,7 @@ fun CharacterDisplay(
             // Nazwa z efektem
             Text(
                 text = character.name,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = when {
                     character.isBoss -> GameColors.EnemyRed
                     isEnemy -> GameColors.Secondary

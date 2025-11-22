@@ -71,13 +71,12 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
 
         // Atak gracza
         val newEnemyHp = (enemy.currentHp - player.damage).coerceAtLeast(0)
-        val updatedEnemy = enemy.copy(currentHp = newEnemyHp)
+        val updatedEnemy = player.attack(enemy)
 
         if (auto) {
             // Wymiana ciosów
             if (newEnemyHp > 0) {
-                val newPlayerHp = (player.currentHp - enemy.damage).coerceAtLeast(0)
-                player = player.copy(currentHp = newPlayerHp)
+                player = enemy.attack(player)
                 logMsg = "Auto: Wymiana ciosów! (-${enemy.damage} HP)"
             } else {
                 logMsg = "Auto: Pokonałeś wroga!"
@@ -110,6 +109,7 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
     }
 
     private fun spawnNextEnemy() {
+//        val state = _uiState.value
         val defeated = _uiState.value.enemiesDefeated
         // Co 10 przeciwników boss
         val isBossLevel = (defeated + 1) % 10 == 0 && defeated != 0
@@ -121,7 +121,8 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
         _uiState.update {
             it.copy(
                 enemy = template.copy(maxHp = scaledHp, currentHp = scaledHp),
-                logs = it.logs + "Pojawia się: ${template.name}"
+                logs = it.logs + "Pojawia się: ${template.name}",
+//                player = state.player.heal()
             )
         }
     }

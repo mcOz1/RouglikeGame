@@ -117,7 +117,7 @@ fun MenuScreen(onStart: () -> Unit) {
             )
 
             Text(
-                text = "WARRIOR",
+                text = "HERO",
                 fontSize = 24.sp,
                 color = GameColors.TextSecondary,
                 letterSpacing = 10.sp,
@@ -257,11 +257,6 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                             .rotate(rotation)
                     ) {
                         Text(
-                            text = "⚡",
-                            fontSize = 40.sp,
-                            modifier = Modifier.offset(y = (-4).dp)
-                        )
-                        Text(
                             text = "VS",
                             fontSize = 28.sp,
                             fontWeight = FontWeight.Black,
@@ -305,7 +300,7 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "TAP TO ATTACK",
+                    text = "Stuknij",
                     color = GameColors.Primary.copy(alpha = alpha),
                     fontSize = 16.sp,
                     letterSpacing = 3.sp,
@@ -679,16 +674,16 @@ fun GameOverScreen(score: Int, onRestart: () -> Unit) {
             // Ikona czaszki
             Text(
                 text = "💀",
-                fontSize = 100.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
+                fontSize = 64.sp,
+                modifier = Modifier.padding(bottom = 12.dp)
             )
 
             Text(
                 text = "KONIEC GRY",
                 color = GameColors.EnemyRed,
-                fontSize = 48.sp,
+                fontSize = 36.sp,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 4.sp,
+                letterSpacing = 3.sp,
                 style = androidx.compose.ui.text.TextStyle(
                     shadow = androidx.compose.ui.graphics.Shadow(
                         color = GameColors.EnemyRed.copy(alpha = 0.5f),
@@ -697,44 +692,7 @@ fun GameOverScreen(score: Int, onRestart: () -> Unit) {
                 )
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Panel wyniku
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = GameColors.Surface
-                ),
-                elevation = CardDefaults.cardElevation(16.dp),
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 2.dp,
-                        color = GameColors.EnemyRed.copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(20.dp)
-                    )
-            ) {
-                Column(
-                    modifier = Modifier.padding(32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "POKONANYCH WROGÓW",
-                        color = GameColors.TextSecondary,
-                        fontSize = 14.sp,
-                        letterSpacing = 2.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "$score",
-                        color = GameColors.Accent,
-                        fontSize = 64.sp,
-                        fontWeight = FontWeight.Black
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             // Przycisk restart
             Button(
@@ -743,9 +701,9 @@ fun GameOverScreen(score: Int, onRestart: () -> Unit) {
                     containerColor = Color.Transparent
                 ),
                 modifier = Modifier
-                    .width(280.dp)
-                    .height(60.dp)
-                    .shadow(12.dp, RoundedCornerShape(30.dp))
+                    .width(240.dp)
+                    .height(50.dp)
+                    .shadow(12.dp, RoundedCornerShape(25.dp))
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
@@ -753,23 +711,60 @@ fun GameOverScreen(score: Int, onRestart: () -> Unit) {
                                 GameColors.Secondary
                             )
                         ),
-                        shape = RoundedCornerShape(30.dp)
+                        shape = RoundedCornerShape(25.dp)
                     )
                     .border(
                         width = 2.dp,
                         color = Color.White.copy(alpha = 0.3f),
-                        shape = RoundedCornerShape(30.dp)
+                        shape = RoundedCornerShape(25.dp)
                     ),
-                shape = RoundedCornerShape(30.dp),
+                shape = RoundedCornerShape(25.dp),
                 elevation = ButtonDefaults.buttonElevation(0.dp)
             ) {
                 Text(
-                    text = "🔄 ZAGRAJ PONOWNIE",
+                    text = "ZAGRAJ PONOWNIE",
                     fontWeight = FontWeight.Black,
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     color = Color.White,
-                    letterSpacing = 2.sp
+                    letterSpacing = 1.5.sp
                 )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Panel wyniku
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = GameColors.Surface
+                ),
+                elevation = CardDefaults.cardElevation(12.dp),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(
+                        width = 2.dp,
+                        color = GameColors.EnemyRed.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "POKONANYCH WROGÓW",
+                        color = GameColors.TextSecondary,
+                        fontSize = 11.sp,
+                        letterSpacing = 1.5.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "$score",
+                        color = GameColors.Accent,
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.Black
+                    )
+                }
             }
         }
     }

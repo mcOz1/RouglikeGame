@@ -17,6 +17,17 @@ data class GameCharacter(
     val imagePath: String? = null
 ) {
     fun isAlive() = currentHp > 0
+    fun heal(amount: Int? = null): GameCharacter {
+        if(amount == null) {
+            return this.copy(currentHp = maxHp)
+        }
+        val newHp = (currentHp + amount).coerceAtMost(maxHp)
+        return this.copy(currentHp = newHp)
+    }
+    fun attack(enemy: GameCharacter): GameCharacter {
+        val enemyNewHp = (enemy.currentHp - this.damage).coerceAtLeast(0)
+        return enemy.copy(currentHp = enemyNewHp)
+    }
 }
 
 data class Upgrade(
