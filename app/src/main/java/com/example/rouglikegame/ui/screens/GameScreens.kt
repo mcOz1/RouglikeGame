@@ -1,3 +1,4 @@
+
 package com.example.rouglikegame.ui.screens
 
 import androidx.compose.animation.core.*
@@ -90,39 +91,43 @@ fun MenuScreen(onStart: () -> Unit) {
 
         Column(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             // Ikona miecza/tarczy
             Text(
                 text = "⚔️",
-                fontSize = 80.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
+                fontSize = 64.sp,
+                modifier = Modifier.padding(bottom = 12.dp)
             )
 
-            // Tytuł z efektem
+            // Tytuł z efektem - responsywny rozmiar
             Text(
-                text = "ROGUELIKE",
-                fontSize = 56.sp,
+                text = "Shadow Tap",
+                fontSize = 42.sp,
                 fontWeight = FontWeight.Black,
                 color = GameColors.Primary,
-                letterSpacing = 6.sp,
+                letterSpacing = 4.sp,
+                textAlign = TextAlign.Center,
                 style = androidx.compose.ui.text.TextStyle(
                     shadow = androidx.compose.ui.graphics.Shadow(
                         color = GameColors.Primary.copy(alpha = 0.5f),
                         blurRadius = 20f
                     )
-                )
+                ),
+                modifier = Modifier.fillMaxWidth(0.9f)
             )
 
             Text(
-                text = "HERO",
-                fontSize = 24.sp,
+                text = "Rogue Waves",
+                fontSize = 18.sp,
                 color = GameColors.TextSecondary,
-                letterSpacing = 10.sp,
+                letterSpacing = 6.sp,
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(bottom = 64.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 32.dp)
             )
 
             // Przycisk start z gradientem i animacją
@@ -142,10 +147,10 @@ fun MenuScreen(onStart: () -> Unit) {
                     containerColor = Color.Transparent
                 ),
                 modifier = Modifier
-                    .width(240.dp)
-                    .height(60.dp)
+                    .fillMaxWidth(0.7f)
+                    .height(56.dp)
                     .scale(scale)
-                    .shadow(16.dp, RoundedCornerShape(30.dp))
+                    .shadow(16.dp, RoundedCornerShape(28.dp))
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
@@ -153,14 +158,14 @@ fun MenuScreen(onStart: () -> Unit) {
                                 GameColors.Secondary
                             )
                         ),
-                        shape = RoundedCornerShape(30.dp)
+                        shape = RoundedCornerShape(28.dp)
                     )
                     .border(
                         width = 2.dp,
                         color = Color.White.copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(30.dp)
+                        shape = RoundedCornerShape(28.dp)
                     ),
-                shape = RoundedCornerShape(30.dp),
+                shape = RoundedCornerShape(28.dp),
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 0.dp,
                     pressedElevation = 0.dp
@@ -169,20 +174,22 @@ fun MenuScreen(onStart: () -> Unit) {
                 Text(
                     text = "▶ NOWA GRA",
                     fontWeight = FontWeight.Black,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     color = Color.White,
-                    letterSpacing = 2.sp
+                    letterSpacing = 2.sp,
+                    textAlign = TextAlign.Center
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             // Subtelny tekst instrukcji
             Text(
                 text = "Pokonaj fale wrogów i zostań mistrzem",
                 color = GameColors.TextSecondary.copy(alpha = 0.6f),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center
+                fontSize = 13.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(0.8f)
             )
         }
     }
@@ -198,7 +205,7 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
         // --- LEWA STRONA: ARENA ---
         Box(
             modifier = Modifier
-                .weight(0.7f)
+                .weight(0.65f)
                 .fillMaxHeight()
                 .clickable { onTap() }
                 .background(
@@ -229,14 +236,19 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(0.9f),
+                    modifier = Modifier
+                        .fillMaxWidth(0.95f)
+                        .padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    CharacterDisplay(state.player, isEnemy = false)
+                    Box(modifier = Modifier.weight(1f)) {
+                        CharacterDisplay(state.player, isEnemy = false)
+                    }
 
                     // Efektowne VS z animacją
                     val rotation by rememberInfiniteTransition(label = "vs_rotation")
@@ -253,12 +265,12 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
-                            .size(80.dp)
+                            .size(60.dp)
                             .rotate(rotation)
                     ) {
                         Text(
                             text = "VS",
-                            fontSize = 28.sp,
+                            fontSize = 22.sp,
                             fontWeight = FontWeight.Black,
                             color = GameColors.Accent,
                             style = androidx.compose.ui.text.TextStyle(
@@ -270,8 +282,10 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                         )
                     }
 
-                    if (state.enemy != null) {
-                        CharacterDisplay(state.enemy, isEnemy = true)
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (state.enemy != null) {
+                            CharacterDisplay(state.enemy, isEnemy = true)
+                        }
                     }
                 }
             }
@@ -291,19 +305,19 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(32.dp),
+                    .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "👆",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
                     text = "Stuknij",
                     color = GameColors.Primary.copy(alpha = alpha),
-                    fontSize = 16.sp,
-                    letterSpacing = 3.sp,
+                    fontSize = 14.sp,
+                    letterSpacing = 2.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -313,7 +327,7 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .width(3.dp)
+                .width(2.dp)
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
@@ -328,7 +342,7 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
         // --- PRAWA STRONA: STATYSTYKI I LOGI ---
         Column(
             modifier = Modifier
-                .weight(0.3f)
+                .weight(0.35f)
                 .fillMaxHeight()
                 .background(
                     brush = Brush.verticalGradient(
@@ -338,15 +352,15 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                         )
                     )
                 )
-                .padding(16.dp)
+                .padding(12.dp)
         ) {
             // Panel statystyk
             Card(
                 colors = CardDefaults.cardColors(
                     containerColor = GameColors.Background
                 ),
-                elevation = CardDefaults.cardElevation(8.dp),
-                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(6.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .border(
@@ -354,23 +368,17 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                         brush = Brush.linearGradient(
                             colors = listOf(GameColors.Primary, GameColors.Secondary)
                         ),
-                        shape = RoundedCornerShape(16.dp)
+                        shape = RoundedCornerShape(12.dp)
                     )
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "📊 STATYSTYKI",
-                            fontSize = 12.sp,
-                            color = GameColors.Primary,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.sp
-                        )
-                    }
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        text = "📊 STATYSTYKI",
+                        fontSize = 10.sp,
+                        color = GameColors.Primary,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
 
                     Spacer(modifier = Modifier.height(12.dp))
 
@@ -379,20 +387,20 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                     ) {
                         Text(
                             text = "💀",
-                            fontSize = 24.sp,
+                            fontSize = 20.sp,
                             modifier = Modifier.padding(end = 8.dp)
                         )
                         Column {
                             Text(
                                 text = "${state.enemiesDefeated}",
                                 color = GameColors.Accent,
-                                fontSize = 28.sp,
+                                fontSize = 24.sp,
                                 fontWeight = FontWeight.Black
                             )
                             Text(
                                 text = "WROGÓW",
                                 color = GameColors.TextSecondary,
-                                fontSize = 10.sp,
+                                fontSize = 9.sp,
                                 letterSpacing = 1.sp
                             )
                         }
@@ -409,7 +417,7 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
             ) {
                 Text(
                     text = "📜 DZIENNIK BITWY",
-                    fontSize = 11.sp,
+                    fontSize = 10.sp,
                     color = GameColors.TextSecondary,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp
@@ -417,35 +425,35 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
             }
 
             HorizontalDivider(
-                modifier = Modifier.padding(vertical = 12.dp),
-                thickness = 2.dp,
+                modifier = Modifier.padding(vertical = 10.dp),
+                thickness = 1.5.dp,
                 color = GameColors.Primary.copy(alpha = 0.3f)
             )
 
             // Logi w stylu terminala
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(bottom = 16.dp)
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                contentPadding = PaddingValues(bottom = 12.dp)
             ) {
                 items(state.logs.reversed()) { log ->
                     Card(
                         colors = CardDefaults.cardColors(
                             containerColor = Color(0xFF1C1C1C)
                         ),
-                        shape = RoundedCornerShape(8.dp),
+                        shape = RoundedCornerShape(6.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
-                            modifier = Modifier.padding(8.dp),
+                            modifier = Modifier.padding(6.dp),
                             verticalAlignment = Alignment.Top
                         ) {
                             Text(
                                 text = ">",
                                 color = GameColors.Primary,
-                                fontSize = 12.sp,
+                                fontSize = 10.sp,
                                 fontFamily = FontFamily.Monospace,
                                 fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(end = 6.dp)
+                                modifier = Modifier.padding(end = 4.dp)
                             )
                             Text(
                                 text = log,
@@ -455,9 +463,9 @@ fun GamePlayScreen(state: com.example.rouglikegame.viewmodel.GameUiState, onTap:
                                     log.contains("otrzymujesz") -> GameColors.Gold
                                     else -> GameColors.TextPrimary
                                 },
-                                fontSize = 11.sp,
+                                fontSize = 10.sp,
                                 fontFamily = FontFamily.Monospace,
-                                lineHeight = 16.sp,
+                                lineHeight = 14.sp,
                                 modifier = Modifier.weight(1f)
                             )
                         }
@@ -487,9 +495,10 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth(0.85f)
-                .align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             // Animowany tytuł
             val scale by rememberInfiniteTransition(label = "title")
@@ -505,7 +514,7 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
 
             Text(
                 text = "🏆",
-                fontSize = 72.sp,
+                fontSize = 56.sp,
                 modifier = Modifier
                     .scale(scale)
                     .padding(bottom = 8.dp)
@@ -514,9 +523,10 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
             Text(
                 text = "ZWYCIĘSTWO!",
                 color = GameColors.Accent,
-                fontSize = 48.sp,
+                fontSize = 36.sp,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 4.sp,
+                letterSpacing = 3.sp,
+                textAlign = TextAlign.Center,
                 style = androidx.compose.ui.text.TextStyle(
                     shadow = androidx.compose.ui.graphics.Shadow(
                         color = GameColors.Accent.copy(alpha = 0.5f),
@@ -527,15 +537,18 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
 
             Text(
                 text = "Wybierz nagrodę za zwycięstwo",
-                color = GameColors.TextSecondary,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(bottom = 40.dp)
+                color = Color.Black,
+                fontSize = 14.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            // Karty nagród
+            // Karty nagród - responsywny layout
             Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.fillMaxWidth()
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
             ) {
                 rewards.forEachIndexed { index, upgrade ->
                     val isSelected = selectedIndex == index
@@ -548,7 +561,7 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
                     Card(
                         modifier = Modifier
                             .weight(1f)
-                            .height(260.dp)
+                            .heightIn(min = 220.dp, max = 280.dp)
                             .scale(scale)
                             .clickable {
                                 selectedIndex = index
@@ -560,7 +573,7 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = if (isSelected) 16.dp else 8.dp
                         ),
-                        shape = RoundedCornerShape(20.dp),
+                        shape = RoundedCornerShape(16.dp),
                         border = BorderStroke(
                             width = if (isSelected) 3.dp else 2.dp,
                             brush = if (isSelected) {
@@ -588,7 +601,7 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
                                         )
                                     )
                                 )
-                                .padding(20.dp),
+                                .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
@@ -596,7 +609,7 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier
-                                    .size(80.dp)
+                                    .size(64.dp)
                                     .shadow(8.dp, androidx.compose.foundation.shape.CircleShape)
                                     .background(
                                         brush = Brush.radialGradient(
@@ -609,7 +622,7 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
                                     )
                             ) {
                                 if (upgrade.imagePath != null) {
-                                    GameImageFromAssets(path = upgrade.imagePath, size = 64.dp)
+                                    GameImageFromAssets(path = upgrade.imagePath, size = 48.dp)
                                 } else {
                                     Text(
                                         text = when {
@@ -617,35 +630,62 @@ fun LevelUpScreen(rewards: List<Upgrade>, onSelect: (Upgrade) -> Unit) {
                                             upgrade.name.contains("Damage") || upgrade.name.contains("Obrażenia") -> "⚔️"
                                             else -> "✨"
                                         },
-                                        fontSize = 48.sp
+                                        fontSize = 40.sp
                                     )
                                 }
                             }
 
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
 
                             Text(
                                 text = upgrade.name,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
+                                fontSize = 15.sp,
                                 color = GameColors.TextPrimary,
                                 textAlign = TextAlign.Center,
-                                letterSpacing = 1.sp
+                                letterSpacing = 0.5.sp,
+                                maxLines = 2,
+                                modifier = Modifier.fillMaxWidth()
                             )
 
-                            Spacer(modifier = Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             Text(
                                 text = upgrade.description,
-                                fontSize = 13.sp,
+                                fontSize = 11.sp,
                                 color = GameColors.TextSecondary,
                                 textAlign = TextAlign.Center,
-                                lineHeight = 18.sp
+                                lineHeight = 14.sp,
+                                maxLines = 3,
+                                modifier = Modifier.fillMaxWidth()
                             )
+
+                            // Wskaźnik wartości
+                            if (upgrade.value > 0) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = "+${upgrade.value}",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = GameColors.Accent,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Wskazówka
+            Text(
+                text = "Kliknij kartę aby wybrać ulepszenie",
+                color = GameColors.TextSecondary.copy(alpha = 0.6f),
+                fontSize = 11.sp,
+                textAlign = TextAlign.Center,
+                letterSpacing = 0.5.sp
+            )
         }
     }
 }

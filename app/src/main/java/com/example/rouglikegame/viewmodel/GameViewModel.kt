@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 
 data class GameUiState(
     val gameState: GameState = GameState.MENU,
-    val player: GameCharacter = GameCharacter("Bohater", 10, 10, 2),
+    val player: GameCharacter = GameCharacter("Bohater", 20, 20, 2),
     val enemy: GameCharacter? = null,
     val enemiesDefeated: Int = 0,
     val availableRewards: List<Upgrade> = emptyList(),
@@ -40,7 +40,7 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
         _uiState.update {
             GameUiState(
                 gameState = GameState.PLAYING,
-                player = GameCharacter("Bohater", 10, 10, 2)
+                player = GameCharacter("Bohater", 20, 20, 2)
             )
         }
         spawnNextEnemy()
