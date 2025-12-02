@@ -109,15 +109,12 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
     }
 
     private fun spawnNextEnemy() {
-//        val state = _uiState.value
         val defeated = _uiState.value.enemiesDefeated
-        // Co 10 przeciwników boss
         val isBossLevel = (defeated + 1) % 10 == 0 && defeated != 0
+        val actualLevel = _uiState.value.player.upgrades.count() + 1
 
-        val template = repository.getRandomEnemy(isBossLevel)
-        // Skalowanie HP zwykłych wrogów
+        val template = repository.getRandomEnemy(isBossLevel, actualLevel)
         val scaledHp = if(!isBossLevel) template.maxHp + defeated else template.maxHp
-
         _uiState.update {
             it.copy(
                 enemy = template.copy(maxHp = scaledHp, currentHp = scaledHp),

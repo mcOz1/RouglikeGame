@@ -10,19 +10,23 @@ class GameRepository(context: Context) {
     private var loadedEnemies: List<GameCharacter> = emptyList()
     private var loadedUpgrades: List<Upgrade> = emptyList()
 
-    // Wczytanie danych (wywoływane raz przy starcie)
     fun initializeData() {
         loadedEnemies = loader.loadEnemies()
         loadedUpgrades = loader.loadUpgrades()
     }
 
-    fun getRandomEnemy(isBoss: Boolean): GameCharacter {
-        val pool = loadedEnemies.filter { it.isBoss == isBoss }
-        // Zabezpieczenie gdy brak plików: zwraca domyślnego wroga
-        if (pool.isEmpty()) {
-            return GameCharacter(if(isBoss) "Boss Testowy" else "Wróg Testowy", 20, 20, 3, isBoss)
+    fun getRandomEnemy(isBoss: Boolean, level: Int): GameCharacter {
+        var level = level
+        while (true) {
+            val pool = loadedEnemies.filter { it.isBoss == isBoss && it.level == level }
+            if (!pool.isEmpty()) {
+                return pool.random().copy()
+            }
+            if (level == 0) {
+                return GameCharacter(if(isBoss) "Boss Testowy" else "Wróg Testowy", 20, 20, 3, isBoss, level=level)
+            }
+            level -= 1
         }
-        return pool.random().copy() // Kopia, by nie modyfikować oryginału w pamięci
     }
 
     fun getRandomUpgrades(count: Int): List<Upgrade> {
@@ -34,20 +38,24 @@ class GameRepository(context: Context) {
         return when (upgrade.effectType) {
             EffectType.HEAL -> {
                 val newHp = (player.currentHp + upgrade.value).coerceAtMost(player.maxHp)
-                player.copy(currentHp = newHp)
+                player.copy(currentHp = newHp, upgrades=player.upgrades.plus(upgrade))
             }
             EffectType.INCREASE_MAX_HP -> {
-                player.copy(maxHp = player.maxHp + upgrade.value, currentHp = player.currentHp + upgrade.value)
+                player.copy(maxHp = player.maxHp + upgrade.value,
+                    currentHp = player.currentHp + upgrade.value,
+                    upgrades=player.upgrades.plus(upgrade))
             }
             EffectType.INCREASE_DMG -> {
-                player.copy(damage = player.damage + upgrade.value)
+                player.copy(damage = player.damage + upgrade.value,
+                    upgrades=player.upgrades.plus(upgrade))
             }
             EffectType.BERSEKER -> {
                 val hpLoss = (player.maxHp * 0.2).toInt()
                 player.copy(
                     maxHp = (player.maxHp - hpLoss).coerceAtLeast(1),
                     currentHp = (player.currentHp - hpLoss).coerceAtLeast(1),
-                    damage = player.damage + upgrade.value
+                    damage = player.damage + upgrade.value,
+                    upgrades=player.upgrades.plus(upgrade)
                 )
             }
         }

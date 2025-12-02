@@ -1,0 +1,9 @@
+{
+  "id": "orc_chief",
+  "name": "Wódz Orków",
+  "hp": 40,
+  "damage": 4,
+  "isBoss": true,
+  "image": "images/orc.png",
+  "level": 1
+}

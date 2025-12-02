@@ -1,0 +1,9 @@
+{
+  "id": "bandit_minion",
+  "name": "Bandyta",
+  "hp": 15,
+  "damage": 2,
+  "isBoss": false,
+  "image": "",
+  "level": 2
+}

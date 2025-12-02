@@ -1,0 +1,9 @@
+{
+  "id": "goblin_minion",
+  "name": "Złośliwy Goblin",
+  "hp": 7,
+  "damage": 1,
+  "isBoss": false,
+  "image": "images/goblin.png",
+  "level": 1
+}

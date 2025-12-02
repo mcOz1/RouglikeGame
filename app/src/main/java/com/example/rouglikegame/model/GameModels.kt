@@ -14,7 +14,9 @@ data class GameCharacter(
     var currentHp: Int,
     val damage: Int,
     val isBoss: Boolean = false,
-    val imagePath: String? = null
+    val imagePath: String? = null,
+    val level: Int = 1,
+    val upgrades: List<Upgrade> = emptyList()
 ) {
     fun isAlive() = currentHp > 0
     fun heal(amount: Int? = null): GameCharacter {

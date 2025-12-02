@@ -4,8 +4,7 @@ import android.content.Context
 import com.example.rouglikegame.model.EffectType
 import com.example.rouglikegame.model.GameCharacter
 import com.example.rouglikegame.model.Upgrade
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import kotlinx.serialization.json.*
 
 class AssetDataLoader(private val context: Context) {
 
@@ -37,45 +36,46 @@ class AssetDataLoader(private val context: Context) {
     }
 
     private fun parseCharacterFile(path: String): GameCharacter? {
-        val map = readProperties(path) ?: return null
-        return GameCharacter(
-            name = map["name"] ?: "Nieznany",
-            maxHp = map["hp"]?.toIntOrNull() ?: 10,
-            currentHp = map["hp"]?.toIntOrNull() ?: 10,
-            damage = map["damage"]?.toIntOrNull() ?: 1,
-            isBoss = map["isBoss"]?.toBoolean() ?: false,
-            imagePath = map["image"]
-        )
+        return try {
+            val inputStream = context.assets.open(path)
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            val json = Json { ignoreUnknownKeys = true }
+            val jsonObject = json.parseToJsonElement(jsonString).jsonObject
+            
+            GameCharacter(
+                name = jsonObject["name"]?.jsonPrimitive?.content ?: "Nieznany",
+                maxHp = jsonObject["hp"]?.jsonPrimitive?.intOrNull ?: 10,
+                currentHp = jsonObject["hp"]?.jsonPrimitive?.intOrNull ?: 10,
+                damage = jsonObject["damage"]?.jsonPrimitive?.intOrNull ?: 1,
+                isBoss = jsonObject["isBoss"]?.jsonPrimitive?.booleanOrNull ?: false,
+                imagePath = jsonObject["image"]?.jsonPrimitive?.contentOrNull,
+                level = jsonObject["level"]?.jsonPrimitive?.intOrNull ?: 1
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun parseUpgradeFile(path: String): Upgrade? {
-        val map = readProperties(path) ?: return null
-        return Upgrade(
-            id = map["id"] ?: "unknown",
-            name = map["name"] ?: "Upgrade",
-            description = map["description"] ?: "",
-            effectType = runCatching { EffectType.valueOf(map["effectType"] ?: "HEAL") }.getOrDefault(EffectType.HEAL),
-            value = map["value"]?.toIntOrNull() ?: 0,
-            imagePath = map["image"]
-        )
-    }
-
-    private fun readProperties(filePath: String): Map<String, String>? {
         return try {
-            val inputStream = context.assets.open(filePath)
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            val map = mutableMapOf<String, String>()
-            reader.useLines { lines ->
-                lines.forEach { line ->
-                    if (line.contains("=")) {
-                        val parts = line.split("=", limit = 2)
-                        map[parts[0].trim()] = parts[1].trim()
-                    }
-                }
-            }
-            map
+            val inputStream = context.assets.open(path)
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            val json = Json { ignoreUnknownKeys = true }
+            val jsonObject = json.parseToJsonElement(jsonString).jsonObject
+            
+            Upgrade(
+                id = jsonObject["id"]?.jsonPrimitive?.content ?: "unknown",
+                name = jsonObject["name"]?.jsonPrimitive?.content ?: "Upgrade",
+                description = jsonObject["description"]?.jsonPrimitive?.content ?: "",
+                effectType = runCatching { 
+                    EffectType.valueOf(jsonObject["effectType"]?.jsonPrimitive?.content ?: "HEAL") 
+                }.getOrDefault(EffectType.HEAL),
+                value = jsonObject["value"]?.jsonPrimitive?.intOrNull ?: 0,
+                imagePath = jsonObject["image"]?.jsonPrimitive?.contentOrNull
+            )
         } catch (e: Exception) {
-            print(e)
+            e.printStackTrace()
             null
         }
     }
