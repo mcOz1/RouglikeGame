@@ -1,0 +1,9 @@
+{
+  "id": "zombie_boss",
+  "name": "Zjawa",
+  "hp": 70,
+  "damage": 7,
+  "isBoss": true,
+  "image": "images/zjawa.png",
+  "level": 3
+}

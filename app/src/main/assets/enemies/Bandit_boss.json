@@ -1,0 +1,9 @@
+{
+  "id": "Bandit_boss",
+  "name": "Szef Zgraji",
+  "hp": 50,
+  "damage": 6,
+  "isBoss": true,
+  "image": "images/Bandit_boss.png",
+  "level": 2
+}
