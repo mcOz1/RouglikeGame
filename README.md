@@ -24,17 +24,5 @@ Gra wykorzystuje maszynę stanów (`GameState`):
 3.  **LEVEL_UP:** Wybór ulepszeń (np. zwiększenie siły ataku, regeneracja zdrowia).
 4.  **PAUSE:** Wstrzymanie gry.
 5.  **GAME_OVER:** Ekran końcowy z podsumowaniem statystyk.
-
-## 5. UI i UX
-*   **Neonowa Estetyka:** Projekt wykorzystuje ciemne motywy z jaskrawymi akcentami (Primary, Secondary, Accent).
-*   **Animacje:** Dynamiczne tła i przyciski wykorzystujące `infiniteTransition` dla lepszego "feelingu" gry.
-*   **Responsywność:** Interfejs dostosowany do różnych rozmiarów ekranów dzięki elastycznym layoutom Compose.
-
-## 6. Uruchomienie
-1.  Sklonuj repozytorium.
-2.  Otwórz w **Android Studio**.
-3.  Zsynchronizuj Gradle.
-4.  Uruchom na urządzeniu/emulatorze (Min SDK 24).
-
 ---
 *Dokumentacja techniczna v1.0*
