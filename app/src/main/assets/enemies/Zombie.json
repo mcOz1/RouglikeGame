@@ -1,0 +1,9 @@
+{
+  "id": "zombie_minion",
+  "name": "Zombie",
+  "hp": 20,
+  "damage": 4,
+  "isBoss": false,
+  "image": "images/zombie.png",
+  "level": 3
+}

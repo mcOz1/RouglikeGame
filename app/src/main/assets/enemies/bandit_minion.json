@@ -2,8 +2,8 @@
   "id": "bandit_minion",
   "name": "Bandyta",
   "hp": 15,
-  "damage": 2,
+  "damage": 3,
   "isBoss": false,
-  "image": "",
+  "image": "images/Bandit.png",
   "level": 2
 }
