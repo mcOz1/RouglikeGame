@@ -17,10 +17,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Tworzymy repozytorium (konieczny context)
         val repository = GameRepository(applicationContext)
 
-        // Fabryka ViewModelu
         val viewModel: GameViewModel by viewModels {
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")

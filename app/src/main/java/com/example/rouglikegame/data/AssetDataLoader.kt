@@ -11,7 +11,6 @@ class AssetDataLoader(private val context: Context) {
     fun loadEnemies(): List<GameCharacter> {
         val enemies = mutableListOf<GameCharacter>()
         try {
-            // Czyta wszystkie pliki z folderu enemies w assets
             val files = context.assets.list("enemies") ?: return emptyList()
             files.forEach { fileName ->
                 parseCharacterFile("enemies/$fileName")?.let { enemies.add(it) }

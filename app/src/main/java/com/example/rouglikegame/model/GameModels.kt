@@ -1,7 +1,7 @@
 package com.example.rouglikegame.model
 
 enum class GameState {
-    MENU, PLAYING, LEVEL_UP, GAME_OVER
+    MENU, PLAYING, LEVEL_UP, GAME_OVER, PAUSE
 }
 
 enum class EffectType {

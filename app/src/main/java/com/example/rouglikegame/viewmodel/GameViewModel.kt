@@ -30,7 +30,6 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
     private var autoAttackJob: Job? = null
 
     init {
-        // Inicjalizacja danych w tle
         viewModelScope.launch(Dispatchers.IO) {
             repository.initializeData()
         }
@@ -69,12 +68,10 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
         var player = state.player
         var logMsg: String
 
-        // Atak gracza
         val newEnemyHp = (enemy.currentHp - player.damage).coerceAtLeast(0)
         val updatedEnemy = player.attack(enemy)
 
         if (auto) {
-            // Wymiana ciosów
             if (newEnemyHp > 0) {
                 player = enemy.attack(player)
                 logMsg = "Auto: Wymiana ciosów! (-${enemy.damage} HP)"
@@ -141,5 +138,11 @@ class GameViewModel(private val repository: GameRepository) : ViewModel() {
 
     fun restartGame() {
         startGame()
+    }
+
+    fun pauseGame() {
+        _uiState.update {
+            it.copy(gameState = GameState.PAUSE)
+        }
     }
 }
